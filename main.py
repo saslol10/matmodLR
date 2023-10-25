@@ -6,6 +6,10 @@ t0 = 0
 t1 = 0.00038 * 10 ** 9
 t2 = (10.3 + 0.00038) * 10 ** 9
 t3 = (11.2 + 0.00038) * 10 ** 9
+print("t0 = ", t0)
+print("t1 = ", t1)
+print("t2 = ", t2)
+print("t3 = ", t3)
 
 a0 = 0
 a1 = ((t2 ** 3) * t3 ** 2 - (t2 ** 2) * (t3 ** 3) + 2 * (t1 ** 2) * (t3 ** 3) + 3 * (t1 ** 3) * (t2 ** 2) - 2 * (
@@ -14,10 +18,10 @@ a2 = -(t3 * (t2 ** 3) - t2 * (t3 ** 3) + 2 * t1 * (t3 ** 3) + 3 * t2 * (t1 ** 3)
         t2 ** 3)) / (t1 * t2 * t3 * (t1 - t2) * (t1 - t3) * (t2 - t3))
 a3 = (t3 * (t2 ** 2) - t2 * (t3 ** 2) + 2 * t1 * (t3 ** 2) + 3 * t2 * (t1 ** 2) - 2 * t3 * (t1 ** 2) - 3 * t1 * (
         t2 ** 2)) / (t1 * t2 * t3 * (t1 - t2) * (t1 - t3) * (t2 - t3))
-print(a0)
-print(a1)
-print(a2)
-print(a3)
+print("a0 = ", a0)
+print("a1 = ", a1)
+print("a2 = ", a2)
+print("a3 = ", a3)
 
 
 # a0 = 0
@@ -40,7 +44,19 @@ def PolyCoefficients(x, coeffs):
     return y
 
 
-# a0 + a1*t4 + a2 * (t4**2) + a3 * (t4**3)  = 4;
+# plt.plot(t0, 0, 'ro')
+# plt.plot(t1, 1, 'ro')
+# plt.plot(t2, 2, 'ro')
+# plt.plot(t3, 3, 'ro')
+# plt.plot(x1, 4, 'go')
+x = np.linspace(-100 * 10 ** 9, 100 * 10 ** 9, 1000)
+coeffs = [a0, a1, a2, a3]
+plt.plot(x, PolyCoefficients(x, coeffs), 'b')
+plt.grid()
+plt.show()
+
+# a0 + a1*t4 + a2 * (t4**2) + a3 * (t4**3)  = P; =>
+# a3 * (t4**3) + a2 * (t4**2) + a1*t4 - 4 = 0;
 
 p = ((3 * a3 * a1) - (a2 ** 2)) / (3 * (a3 ** 2))
 q = ((2 * (a2 ** 3)) - 9 * a3 * a2 * a1 + 27 * (a3 ** 2) * (-4)) / (27 * (a3 ** 3))
@@ -62,7 +78,19 @@ if D < 0:
     x2 = y2 - a2 / (3 * a3)
     x3 = y3 - a2 / (3 * a3)
     print("D < 0")
-    print(x1, x2, x3)
+    print("t4_1 = ", x1)
+    print("t4_2 = ", x2)
+    print("t4_3 = ", x3)
+
+    # .todo -> в отдельную функцию
+    a = [x1, x2, x3]
+    answer = []
+    for i in range(len(a)):
+        if t3 < a[i]:
+            answer.append(a[i])
+    answer.sort()
+
+    print("t4 = ", answer[0])
 
 if D > 0:
     y1 = (((-(q / 2)) + math.sqrt(D)) ** (1 / 3)) + (((-(q / 2)) - math.sqrt(D)) ** (1 / 3))
@@ -81,7 +109,7 @@ if D > 0:
     x2 = y2 - a2 / (3 * a3)
     x3 = y3 - a2 / (3 * a3)
     print("D > 0")
-    print(x1, x2, x3)
+    print("t4_1 = ", x1, "t4_2 = ", x2, "t4_3 = ", x3)
 
 if D == 0:
     if q == 0 and p == 0:
@@ -89,22 +117,13 @@ if D == 0:
         x1 = - a2 / (3 * a3)
         flag = 4
         print("D = 0; q = 0; p = 0")
-        print(x1)
+        print("t4_1 = ", x1)
     else:
         y1 = 2 * (-q / 2) ** (1 / 3)
         y2 = -(-q / 2) ** (1 / 3)
         x1 = y1 - a2 / (3 * a3)
         x2 = y2 - a2 / (3 * a3)
         print("D = 0")
-        print(x1, x2)
-print(t3)
-# plt.plot(t0, 0, 'ro')
-# plt.plot(t1, 1, 'ro')
-# plt.plot(t2, 2, 'ro')
-# plt.plot(t3, 3, 'ro')
-# plt.plot(x1, 4, 'go')
-x = np.linspace(-100*10**9, 100*10**9, 1000)
-coeffs = [a0, a1, a2, a3]
-plt.plot(x, PolyCoefficients(x, coeffs), 'b')
-plt.grid()
-plt.show()
+        print("t4_1 = ", x1, "t4_2 = ", x2)
+
+
